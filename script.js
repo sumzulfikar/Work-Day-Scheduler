@@ -80,28 +80,26 @@ for (var hour=businessStart.get("hour"); hour<=businessEnd.get("hour"); hour++) 
       tableBody.appendChild(row);
 }    
 
-//Persisting user's tasked saved during business hour
-taskArray.forEach(function(uniqueTask){
+// Persisting user's tasked saved during business hour after application refresh
+
+taskArray.forEach(function(uniqueTask, index){
+  //Looping through each unique save button and returning saved user input
+  var uniqueSave = saveArray[index];
+  var saveClick = document.getElementById(uniqueSave);
   var savedUserInput=localStorage.getItem(uniqueTask);
   if (savedUserInput!=null){
-
     document.getElementById(uniqueTask).value=savedUserInput;
   }
 
+
+  (function(uniqueTask) {
+    saveClick.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      // Saving User Input 
+      var userInput = document.getElementById(uniqueTask).value;
+      localStorage.setItem(uniqueTask, userInput);
+    });
+  })(uniqueTask);
 });
-      
- //Saving User Input and save button
- taskArray.forEach(function(uniqueTask){
-var saveClick=document.getElementById(uniqueSave);
-
-saveClick.addEventListener("click",function(event){
- event.preventDefault();
-
- var userInput=document.getElementById(uniqueTask).value;
-   localStorage.setItem(uniqueTask, userInput);
- 
-});
-
-});
-
 
